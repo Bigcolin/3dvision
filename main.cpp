@@ -13,30 +13,30 @@ int main(int argc, char** argv)
     {
         scan_position(i - 1) = atoi(argv[i]);
     }
-    vecxf cam_position(3);
-    cam_position(0) = 0.3f;
-    cam_position(1) = 0.6f;
-    cam_position(2) = 0.9f;
+    vecxf cam_position(2);
+    cam_position(0) = 0.5f;
+    cam_position(1) = 1.5f;
+    // cam_position(2) = 1.5f;
 
     float scan_x = 0.0f;
-    float x_angle = M_PI_4;
-    float y_angle = M_PI_4;
-    float cam_distort = 0.1f;
+    float z_angle = M_PI/3;
+    float y_angle = M_PI/3;
+    vec3f cam_distort(0.16f, 0.04f, 0.01f);
     float cam_noise = 0.0f;
     vec3f r0(0.4f, 0.8f, 1.2f);
     auto sph0 = pcl_simu::calib_sphere(r0);    
     
     pxyz global_cloud(new xyz);
     pxyz local_cloud(new xyz);
-    pcl_simu::camera local_cam(cam_distort, cam_noise, x_angle, y_angle);
+    pcl_simu::camera cam0(cam_distort, cam_noise, z_angle, y_angle);
     for (float &y : scan_position)
     {   
 
         for (float &h : cam_position)
         {
             // local_cloud.reset();
-            local_cam.move_to(y, h);
-            local_cam.simu_shot(local_cloud);
+            cam0.move_to(y, h);
+            cam0.simu_shot(local_cloud);
 
         }
 

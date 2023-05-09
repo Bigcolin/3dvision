@@ -4,7 +4,7 @@ namespace pcl_simu
 {
 
 float curve(float x, float y){
-        float z = -(2.0 + sin(2 * M_PI * y) / 40) * (x - 0.5) * (x - 2.5);
+        float z = -(2.5 + sin(2 * M_PI * y) / 40) * (x - 0.5) * (x - 2.5);
     return z;
 };
 
@@ -28,10 +28,10 @@ std::function<float(float)> sight(float ang, float height){
     return func;
 };
 
-camera::camera(float distort, float noi, float ang_x, float ang_y){
-    distort_coef = distort;
+camera::camera(vec3f distort, float noi, float ang_z, float ang_y){
+    distort_coefs = distort;
     noise_coef = noi;
-    angle_x = ang_x;
+    angle_z = ang_z;
     angle_y = ang_y;
     coord_x = 0.0f;
 };
@@ -46,33 +46,41 @@ void camera::move_to(float& y, float& z)
 void camera::simu_shot(pxyz& cloud)
 {
     float density = DENSITY * 5;
-    auto top_sight_x = sight(angle_x, coord_z);
+    auto top_sight_z = sight(angle_z, coord_z);
     // auto top_sight_y = sight(angle_y, height);
-    auto bot_sight_x = sight(-angle_x, coord_z);
+    auto bot_sight_z = sight(-angle_z, coord_z);
     // auto bot_sight_y = sight(-angle_y, height);
-    for (float y = 0.0f; y < 1.2f; y+=density)
-    for (float x = 0.0f; x < 1.2f; x+=density)
-    {   
+    float dist;
+    for (float v = 0.0f; v < 1.2f; v+=density)
+    {
+        if (std::abs(v - 0.6) < 0.3)
+            dist = 0.8f; 
+        else
+            dist = 0.3f;
 
-        float v = coord_y + y - 0.6;
-        // cout << v << " : " << distortion(v) << endl;
-        float u = x + 0.3; // depth, geometry info(v, z). to calcu
-        float z = curve(u, v);
-        // cout << "(x, y, z): " << u <<", " << v << ", " << z << endl;
-        // cout << z << " : " << distortion(z) << endl;
-        if (z < top_sight_x(u) && z > bot_sight_x(u))
-        {
-            pcl::PointXYZ p(u, coord_y + distortion(y - 0.6), coord_z + distortion(z - coord_z));
-            cloud->points.push_back(p);
+        for (float x = dist; x < 1.5f; x+=density)
+        {   
+
+            float y = coord_y + v - 0.6;
+
+            float z = curve(x, y);
+            // cout << "(x, y, z): " << u <<", " << v << ", " << z << endl;
+            // cout << z << " : " << distortion(z) << endl;
+            if (z < std::min(top_sight_z(x), ZMAX) && z > std::max(bot_sight_z(x), 0.0f))
+            {
+                pcl::PointXYZ p(x, coord_y + distortion(v - 0.6, (v - 0.6)/x), coord_z + distortion(z - coord_z, 0.0*(z - coord_z)/x));
+                cloud->points.push_back(p);
+            }
         }
     }
 };
 
 
 
-float camera::distortion(float d)
+float camera::distortion(float d, float k)
 {
-    return d*(1.0 + d*d*distort_coef);  // 1 + k1 r^2 + k2 r^4 + k3 r^ : Distortion
+    vec3f vd(pow(d, 2), pow(d, 4), pow(d, 6));
+    return d*(1.0 + k * vd.transpose()*distort_coefs);  // 1 + k1 r^2 + k2 r^4 + k3 r^ : Distortion
 };
 
 void global_pcd(pxyz& cloud, camera& cam)

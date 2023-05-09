@@ -17,9 +17,9 @@
 #define YMIN 0.0f
 #define XMAX 1.5f
 #define XMIN 0.0f
-#define ZMAX 3.0f
+#define ZMAX 2.55f
 #define ZMIN 0.0f
-#define MAX_ANGLE M_PI / 3
+#define MAX_ANGLE M_PI / 2
 #define RADIUS 0.05f
 #define DENSITY 0.01f
 #define LOCAL_PCD_SIZE 2000
@@ -41,10 +41,11 @@ std::function<float(vec3f)> calib_sphere(vec3f cir);
 
 class camera{
 
-    float distort_coef;
+    vec3f distort_coefs;
+    // float distort_coef;
     float noise_coef;
 
-    float angle_x;
+    float angle_z;
     float angle_y;
 
     float coord_x;
@@ -53,10 +54,10 @@ class camera{
     // pxyz cloud; 
 
     public:
-        camera(float distort, float noi, float ang_x, float ang_y);
+        camera(vec3f distort, float noi, float ang_x, float ang_y);
         void move_to(float& y, float& z);
         void simu_shot(pxyz& cloud);
-        float distortion(float d);
+        float distortion(float d, float k);
 };
 
 
