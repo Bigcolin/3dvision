@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+project(MY_PCL_PROJECT)
+find_package(PCL 1.3 REQUIRED COMPONENTS filters common io visualization)
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
+add_executable(pcd_test main.cpp pcl_simu.cpp)
+target_link_libraries(pcd_test ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES})
