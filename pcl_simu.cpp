@@ -3,9 +3,15 @@
 namespace pcl_simu
 {
 
-float curve(float x, float y){
-        float z = -(2.5 + sin(2 * M_PI * y) / 40) * (x - 0.5) * (x - 2.5);
-    return z;
+// float curve(float x, float y){
+//         float z = -(2.5 + sin(2 * M_PI * y) / 40) * (x - 0.5) * (x - 2.5);
+//     return z;
+// };
+
+pcl::PointXYZ sphere(float& r, float& theta, float& phi)
+{
+    pcl::PointXYZ local_hs(r*sin(theta), r*cos(theta)*sin(phi), r*cos(theta)*cos(phi));
+    return local_hs;
 };
 
 std::function<float(vec3f)> calib_sphere(vec3f cir){
@@ -28,64 +34,59 @@ std::function<float(float)> sight(float ang, float height){
     return func;
 };
 
-camera::camera(vec3f distort, float noi, float ang_z, float ang_y){
+camera::camera(vec3f distort, float noi){
     distort_coefs = distort;
     noise_coef = noi;
-    angle_z = ang_z;
-    angle_y = ang_y;
-    coord_x = 0.0f;
-};
+ };
 
-void camera::move_to(float& y, float& z)
-{
-    coord_z = z;
-    coord_y = y;
 
-};
-
-void camera::simu_shot(pxyz& cloud)
+void camera::simu_shot(pxyz& cloud, float&d, float& r)
 {
     float density = DENSITY * 5;
-    auto top_sight_z = sight(angle_z, coord_z);
-    // auto top_sight_y = sight(angle_y, height);
-    auto bot_sight_z = sight(-angle_z, coord_z);
-    // auto bot_sight_y = sight(-angle_y, height);
-    float dist;
-    for (float v = 0.0f; v < 1.2f; v+=density)
-    {
-        if (std::abs(v - 0.6) < 0.3)
-            dist = 0.8f; 
-        else
-            dist = 0.3f;
-
-        for (float x = dist; x < 1.5f; x+=density)
+    for (float theta = 0.0f; theta < M_PI; theta+=density)
+        for (float phi = 0.0f; phi < M_PI; phi+=density)
         {   
 
-            float y = coord_y + v - 0.6;
+            pcl::PointXYZ p = sphere(r, theta, phi);
+            cloud->push_back(p);
 
-            float z = curve(x, y);
-            // cout << "(x, y, z): " << u <<", " << v << ", " << z << endl;
-            // cout << z << " : " << distortion(z) << endl;
-            if (z < std::min(top_sight_z(x), ZMAX) && z > std::max(bot_sight_z(x), 0.0f))
-            {
-                pcl::PointXYZ p(x, coord_y + distortion(v - 0.6, (v - 0.6)/x), coord_z + distortion(z - coord_z, 0.0*(z - coord_z)/x));
-                cloud->points.push_back(p);
-            }
         }
-    }
 };
 
 
+// float camera::distortion(float d, float k)
+// {
+//     vec3f vd(pow(d, 2), pow(d, 4), pow(d, 6));
+//     return d*(1.0 + k * vd.transpose()*distort_coefs);  // 1 + k1 r^2 + k2 r^4 + k3 r^ : Distortion
+// };
 
-float camera::distortion(float d, float k)
+robortArm::robortArm(float l1, float l0, vec3f init_coord, vec3f distort, float noi) : robcam(distort, noi)
 {
-    vec3f vd(pow(d, 2), pow(d, 4), pow(d, 6));
-    return d*(1.0 + k * vd.transpose()*distort_coefs);  // 1 + k1 r^2 + k2 r^4 + k3 r^ : Distortion
+    len_arm1 = l1;
+    len_arm0 = l0;
+    coord = init_coord;
+
 };
 
-void global_pcd(pxyz& cloud, camera& cam)
+void robortArm::rotateTo(float& ang1, float& ang2)
 {
+    ang_arm1 = ang1;
+    ang_arm0 = ang2;
+};
 
+
+void robortArm::transform(pxyz& cloud_l, pxyz& cloud_g)
+{
+    Eigen::Affine3f tf = Eigen::Affine3f::Identity();
+    tf.translation() << len_arm1*cos(ang_arm1)*cos(ang_arm0), len_arm1*cos(ang_arm1)*sin(ang_arm0), len_arm1*sin(ang_arm1) + len_arm1;
+    tf.rotate(Eigen::AngleAxisf(ang_arm0, Eigen::Vector3f::UnitZ()));
+    tf.rotate(Eigen::AngleAxisf(ang_arm1, Eigen::Vector3f::UnitY()));
+    pcl::transformPointCloud(*cloud_l, *cloud_g, tf);
+
+};
+
+void global_pcd(pxyz& cloud)
+{
 };
 
 }
