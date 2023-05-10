@@ -51,7 +51,7 @@ class camera{  // simulation of camera module
 
     public:
         camera(vec3f distort, float noi);
-        void simu_shot(pxyz& cloud, float&d, float& r);
+        void simu_shot(pxyz& cloud, float& r);
         // float distortion(float d, float k);
 };
 

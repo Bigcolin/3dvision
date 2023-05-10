@@ -10,7 +10,8 @@ namespace pcl_simu
 
 pcl::PointXYZ sphere(float& r, float& theta, float& phi)
 {
-    pcl::PointXYZ local_hs(r*sin(theta), r*cos(theta)*sin(phi), r*cos(theta)*cos(phi));
+    // float r = r + d;
+    pcl::PointXYZ local_hs(r*cos(theta)*cos(phi),r*cos(theta)*sin(phi), r*sin(theta));
     return local_hs;
 };
 
@@ -40,11 +41,11 @@ camera::camera(vec3f distort, float noi){
  };
 
 
-void camera::simu_shot(pxyz& cloud, float&d, float& r)
+void camera::simu_shot(pxyz& cloud, float& r)
 {
     float density = DENSITY * 5;
-    for (float theta = 0.0f; theta < M_PI; theta+=density)
-        for (float phi = 0.0f; phi < M_PI; phi+=density)
+    for (float theta = -M_PI_2; theta < M_PI_2; theta+=density)
+        for (float phi = -M_PI_2; phi < M_PI_2; phi+=density)
         {   
 
             pcl::PointXYZ p = sphere(r, theta, phi);
@@ -52,7 +53,6 @@ void camera::simu_shot(pxyz& cloud, float&d, float& r)
 
         }
 };
-
 
 // float camera::distortion(float d, float k)
 // {
@@ -74,13 +74,22 @@ void robortArm::rotateTo(float& ang1, float& ang2)
     ang_arm0 = ang2;
 };
 
+void robortArm::moveTo(vec3f new_coord)
+{
+    coord = new_coord;
+
+};
+
 
 void robortArm::transform(pxyz& cloud_l, pxyz& cloud_g)
 {
     Eigen::Affine3f tf = Eigen::Affine3f::Identity();
-    tf.translation() << len_arm1*cos(ang_arm1)*cos(ang_arm0), len_arm1*cos(ang_arm1)*sin(ang_arm0), len_arm1*sin(ang_arm1) + len_arm1;
+    vec3f t(len_arm1*cos(ang_arm1)*cos(ang_arm0), len_arm1*cos(ang_arm1)*sin(ang_arm0), len_arm1*sin(ang_arm1) + len_arm0);
+    t = t + coord;
+ 
     tf.rotate(Eigen::AngleAxisf(ang_arm0, Eigen::Vector3f::UnitZ()));
-    tf.rotate(Eigen::AngleAxisf(ang_arm1, Eigen::Vector3f::UnitY()));
+    tf.rotate(Eigen::AngleAxisf(-ang_arm1, Eigen::Vector3f::UnitY()));
+    tf.translation() << t;
     pcl::transformPointCloud(*cloud_l, *cloud_g, tf);
 
 };

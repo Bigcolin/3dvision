@@ -5,13 +5,14 @@
 int main(int argc, char** argv)
 {   
     vec3f init_robot_position(0.0f, 0.0f, 0.0f); //default: origin
-    // scan_position.resize(argc - 1);
-    for(int i = 1; i < argc; ++i)
-    {
-        init_robot_position(i - 1) = atoi(argv[i]);
-    }
-    vecxf angle_arm1 = vecxf::LinSpaced(3, 0.25f, 1.75f) * M_PI;
-    vecxf angle_arm0= vecxf::LinSpaced(3, 0.0f, 2.0f) * M_PI;
+    // for(int i = 1; i < argc; ++i)
+    // {
+    //     init_robot_position(i - 1) = atoi(argv[i]);
+    // }
+    vecxf angle_arm1 = vecxf::LinSpaced(3, 0.2f, 0.8f) * 3 * M_PI * 2;
+    // cout << angle_arm1 << endl;
+    vecxf angle_arm0= vecxf::LinSpaced(3, 0.0f, 0.4f) * M_PI * 2;
+    // cout << angle_arm0 << endl;
     float len_arm1 = 0.5f;
     float len_arm0 = 1.0f;
  
@@ -22,28 +23,49 @@ int main(int argc, char** argv)
     pcl_simu::robortArm rob(len_arm1, len_arm0, init_robot_position, cam_distort, cam_noise);
     std::string fn = "/Users/kyan/Projects/3dpcl/pcl0/synthetic_data/test_transform";
     std::string ft = ".pcd";
+    float r = 0.05;
+
     int ind = 0;
-    for (float &theta : angle_arm1)
-    {   
+    int n_coord;
+    std::ifstream inFile("/Users/kyan/Projects/3dpcl/pcl0/robort_coords.txt");
+    inFile >> n_coord;
+    cout<<"get pointcloud from " << n_coord << " position" << endl;
+    // std::string line;
 
-        for (float &phi : angle_arm0)
-        {
-            rob.rotateTo(theta, phi);
-            pxyz local_cloud(new xyz);
-            pxyz global_cloud(new xyz);
-            rob.robcam.simu_shot(local_cloud, theta, phi);
-            local_cloud->height = local_cloud->size();
-            local_cloud->width = 1; 
-            rob.transform(local_cloud, global_cloud);
-            // cout << local_cloud->height <<", "<<local_cloud->width<<endl;
-            pcl::io::savePCDFileASCII(fn + std::to_string(ind) + ft, *global_cloud);
-            local_cloud.reset();
-            global_cloud.reset();
-            ind++;
+    while (n_coord > 0)
+    {
+        // getline(inFile, line);
+        // std::istringstream iss(line);
+        float x, y, z;
+        inFile >> x >> y >> z;
+        cout << "the coordinate of new position is: " << x << " " << y << " " << z << endl;
+        vec3f new_coord(x, y, z);
+        rob.moveTo(new_coord);
+        for (float &theta : angle_arm1)
+        {   
 
-        }
+            for (float &phi : angle_arm0)
+            {
+                rob.rotateTo(theta, phi);
+                pxyz local_cloud(new xyz);
+                pxyz global_cloud(new xyz);
+                rob.robcam.simu_shot(local_cloud, r);
+                local_cloud->height = local_cloud->size();
+                local_cloud->width = 1; 
+                rob.transform(local_cloud, global_cloud);
+                // cout << local_cloud->height <<", "<<local_cloud->width<<endl;
+                pcl::io::savePCDFileASCII(fn + std::to_string(ind) + ft, *global_cloud);
+                local_cloud.reset();
+                global_cloud.reset();
+                ind++;
 
+            }
+
+        };
+
+        n_coord--;
     };
+    inFile.close();
 
     // pcl::visualization::PCLVisualizer::Ptr viewer(new pcl::visualization::PCLVisualizer);
     // viewer->addPointCloud(local_cloud);
