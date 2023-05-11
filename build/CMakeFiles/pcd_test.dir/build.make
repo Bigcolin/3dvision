@@ -110,6 +110,7 @@ pcd_test: CMakeFiles/pcd_test.dir/pcl_simu.cpp.o
 pcd_test: CMakeFiles/pcd_test.dir/build.make
 pcd_test: /opt/homebrew/lib/libpcl_filters.dylib
 pcd_test: /opt/homebrew/lib/libpcl_visualization.dylib
+pcd_test: /opt/homebrew/lib/libopencv_stereo.4.7.0.dylib
 pcd_test: /opt/homebrew/lib/libpcl_sample_consensus.dylib
 pcd_test: /opt/homebrew/lib/libpcl_search.dylib
 pcd_test: /opt/homebrew/lib/libpcl_kdtree.dylib
@@ -170,6 +171,21 @@ pcd_test: /opt/homebrew/lib/libboost_iostreams-mt.dylib
 pcd_test: /opt/homebrew/lib/libboost_serialization-mt.dylib
 pcd_test: /opt/homebrew/lib/libflann_cpp.1.9.2.dylib
 pcd_test: /opt/homebrew/Cellar/lz4/1.9.4/lib/liblz4.dylib
+pcd_test: /opt/homebrew/lib/libopencv_tracking.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_plot.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_datasets.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_text.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_ml.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_highgui.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_videoio.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_imgcodecs.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_video.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_dnn.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_calib3d.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_features2d.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_flann.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_imgproc.4.7.0.dylib
+pcd_test: /opt/homebrew/lib/libopencv_core.4.7.0.dylib
 pcd_test: CMakeFiles/pcd_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/kyan/Projects/3dpcl/pcl0/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable pcd_test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/pcd_test.dir/link.txt --verbose=$(VERBOSE)

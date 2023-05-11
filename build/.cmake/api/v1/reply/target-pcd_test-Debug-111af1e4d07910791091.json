@@ -38,7 +38,9 @@
 			"/opt/homebrew/lib/cmake/boost_filesystem-1.81.0/boost_filesystem-config.cmake",
 			"/opt/homebrew/lib/cmake/Boost-1.81.0/BoostConfig.cmake",
 			"/opt/homebrew/Cellar/cmake/3.26.3/share/cmake/Modules/FindBoost.cmake",
-			"/opt/homebrew/share/pcl-1.13/Modules/FindFLANN.cmake"
+			"/opt/homebrew/share/pcl-1.13/Modules/FindFLANN.cmake",
+			"/opt/homebrew/lib/cmake/opencv4/OpenCVModules.cmake",
+			"/opt/homebrew/lib/cmake/opencv4/OpenCVConfig.cmake"
 		],
 		"nodes" : 
 		[
@@ -48,7 +50,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 7,
+				"line" : 11,
 				"parent" : 0
 			},
 			{
@@ -60,7 +62,7 @@
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 8,
+				"line" : 12,
 				"parent" : 0
 			},
 			{
@@ -272,6 +274,32 @@
 				"parent" : 40
 			},
 			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 8,
+				"parent" : 0
+			},
+			{
+				"file" : 12,
+				"parent" : 42
+			},
+			{
+				"command" : 4,
+				"file" : 12,
+				"line" : 126,
+				"parent" : 43
+			},
+			{
+				"file" : 11,
+				"parent" : 44
+			},
+			{
+				"command" : 3,
+				"file" : 11,
+				"line" : 470,
+				"parent" : 45
+			},
+			{
 				"command" : 13,
 				"file" : 0,
 				"line" : 6,
@@ -281,6 +309,12 @@
 				"command" : 14,
 				"file" : 0,
 				"line" : 4,
+				"parent" : 0
+			},
+			{
+				"command" : 14,
+				"file" : 0,
+				"line" : 9,
 				"parent" : 0
 			}
 		]
@@ -357,11 +391,11 @@
 					"define" : "BOOST_SYSTEM_NO_LIB"
 				},
 				{
-					"backtrace" : 42,
+					"backtrace" : 47,
 					"define" : "DISABLE_PCAP"
 				},
 				{
-					"backtrace" : 42,
+					"backtrace" : 47,
 					"define" : "DISABLE_PNG"
 				},
 				{
@@ -388,19 +422,24 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 43,
+					"backtrace" : 48,
 					"isSystem" : true,
 					"path" : "/opt/homebrew/include/pcl-1.13"
 				},
 				{
-					"backtrace" : 43,
+					"backtrace" : 48,
 					"isSystem" : true,
 					"path" : "/opt/homebrew/include/eigen3"
 				},
 				{
-					"backtrace" : 43,
+					"backtrace" : 48,
 					"isSystem" : true,
 					"path" : "/opt/homebrew/include"
+				},
+				{
+					"backtrace" : 49,
+					"isSystem" : true,
+					"path" : "/opt/homebrew/Cellar/opencv/4.7.0_4/include/opencv4"
 				},
 				{
 					"backtrace" : 3,
@@ -520,6 +559,11 @@
 			{
 				"backtrace" : 3,
 				"fragment" : "/opt/homebrew/lib/libpcl_visualization.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "/opt/homebrew/lib/libopencv_stereo.4.7.0.dylib",
 				"role" : "libraries"
 			},
 			{
@@ -824,6 +868,81 @@
 			},
 			{
 				"fragment" : "/opt/homebrew/Cellar/lz4/1.9.4/lib/liblz4.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_tracking.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_plot.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_datasets.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_text.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_ml.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_highgui.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_videoio.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_imgcodecs.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_video.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_dnn.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_calib3d.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_features2d.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_flann.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_imgproc.4.7.0.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 46,
+				"fragment" : "/opt/homebrew/lib/libopencv_core.4.7.0.dylib",
 				"role" : "libraries"
 			}
 		],

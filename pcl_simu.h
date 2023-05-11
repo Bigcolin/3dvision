@@ -12,6 +12,7 @@
 #include<pcl/filters/voxel_grid.h>
 #include<pcl/common/concatenate.h>
 #include<pcl/common/transforms.h>
+#include<opencv2/opencv.hpp>
 
 #define YMAX 10.0f
 #define YMIN 0.0f
@@ -43,16 +44,14 @@ pcl::PointXYZ sphere(float& r, float& theta, float& phi);
 class camera{  // simulation of camera module
 
     vec3f distort_coefs; // 畸变与误差系数
-    // float distort_coef;
     float noise_coef;
-    // float angle_z; // 可视角度
-    // float angle_y;
     vec3f coord;
 
     public:
         camera(vec3f distort, float noi);
         void simu_shot(pxyz& cloud, float& r);
-        // float distortion(float d, float k);
+        float distortion(float d, float k);
+        void real_shot(pxyz& cloud, matxf& img_l, matxf& img_r);
 };
 
 
@@ -70,6 +69,27 @@ class robortArm{
 
 };
 
+class img_processing{
 
-void global_pcd(pxyz& cloud);
+    public:
+    cv::Mat disparsity(cv::Mat& img_l, cv::Mat& img_r);
+    cv::Mat depth();
+};
+
+
+class pcd_processing{
+    int file_nums;
+    int max_point_nums;
+    float cloud_density;
+    vec3f time_stamps;
+    public:
+        pcd_processing();
+        void io();
+        void stitch();
+        void feature_match(matxf& feature, matxf& img, pxyz& cloud);
+        void feature_measure();
+
+
+
+};
 }

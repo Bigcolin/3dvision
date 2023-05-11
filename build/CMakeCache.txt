@@ -282,6 +282,9 @@ OPENGL_gl_LIBRARY:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/
 //GLU library for OS X (usually same as OpenGL library)
 OPENGL_glu_LIBRARY:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/OpenGL.framework
 
+//The directory containing a CMake configuration file for OpenCV.
+OpenCV_DIR:PATH=/opt/homebrew/lib/cmake/opencv4
+
 //path to common headers
 PCL_COMMON_INCLUDE_DIR:PATH=/opt/homebrew/include/pcl-1.13
 
@@ -629,6 +632,8 @@ FIND_PACKAGE_MESSAGE_DETAILS_JPEG:INTERNAL=[/opt/homebrew/lib/libjpeg.dylib][/op
 FIND_PACKAGE_MESSAGE_DETAILS_LZ4:INTERNAL=[/opt/homebrew/lib/liblz4.dylib][/opt/homebrew/include][v1.9.4()]
 //Details about finding LZMA
 FIND_PACKAGE_MESSAGE_DETAILS_LZMA:INTERNAL=[/opt/homebrew/lib/liblzma.dylib][/opt/homebrew/include][v5.4.2()]
+//Details about finding OpenCV
+FIND_PACKAGE_MESSAGE_DETAILS_OpenCV:INTERNAL=[/opt/homebrew/Cellar/opencv/4.7.0_4][cfound components: opencv_stereo ][v4.7.0()]
 //Details about finding OpenGL
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/OpenGL.framework][/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/OpenGL.framework][cfound components: OpenGL ][v()]
 //Details about finding PCL
