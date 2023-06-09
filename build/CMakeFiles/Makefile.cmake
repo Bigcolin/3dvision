@@ -193,4 +193,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/pcd_test.dir/DependInfo.cmake"
+  "CMakeFiles/ndt_test.dir/DependInfo.cmake"
   )

@@ -129,6 +129,19 @@ pcd_test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pcd_test.dir/build.make CMakeFiles/pcd_test.dir/build
 .PHONY : pcd_test/fast
 
+#=============================================================================
+# Target rules for targets named ndt_test
+
+# Build rule for target.
+ndt_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ndt_test
+.PHONY : ndt_test
+
+# fast build rule for target.
+ndt_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ndt_test.dir/build.make CMakeFiles/ndt_test.dir/build
+.PHONY : ndt_test/fast
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -152,6 +165,30 @@ main.s: main.cpp.s
 main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pcd_test.dir/build.make CMakeFiles/pcd_test.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+ndt.o: ndt.cpp.o
+.PHONY : ndt.o
+
+# target to build an object file
+ndt.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ndt_test.dir/build.make CMakeFiles/ndt_test.dir/ndt.cpp.o
+.PHONY : ndt.cpp.o
+
+ndt.i: ndt.cpp.i
+.PHONY : ndt.i
+
+# target to preprocess a source file
+ndt.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ndt_test.dir/build.make CMakeFiles/ndt_test.dir/ndt.cpp.i
+.PHONY : ndt.cpp.i
+
+ndt.s: ndt.cpp.s
+.PHONY : ndt.s
+
+# target to generate assembly for a file
+ndt.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ndt_test.dir/build.make CMakeFiles/ndt_test.dir/ndt.cpp.s
+.PHONY : ndt.cpp.s
 
 pcl_simu.o: pcl_simu.cpp.o
 .PHONY : pcl_simu.o
@@ -185,10 +222,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... ndt_test"
 	@echo "... pcd_test"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... ndt.o"
+	@echo "... ndt.i"
+	@echo "... ndt.s"
 	@echo "... pcl_simu.o"
 	@echo "... pcl_simu.i"
 	@echo "... pcl_simu.s"

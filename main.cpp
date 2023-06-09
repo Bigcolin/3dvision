@@ -23,7 +23,7 @@ int main(int argc, char** argv)
     pcl_simu::robortArm rob(len_arm1, len_arm0, init_robot_position, cam_distort, cam_noise);
     std::string fn = "/Users/kyan/Projects/3dpcl/pcl0/synthetic_data/test_transform";
     std::string ft = ".pcd";
-    float r = 0.05;
+    float r = 0.2;
 
     int ind = 0;
     int n_coord;
@@ -47,6 +47,7 @@ int main(int argc, char** argv)
             for (float &phi : angle_arm0)
             {
                 rob.rotateTo(theta, phi);
+                rob.telescpTo(len_arm1, (len_arm0 + ind*r/5));
                 pxyz local_cloud(new xyz);
                 pxyz global_cloud(new xyz);
                 rob.robcam.simu_shot(local_cloud, r);

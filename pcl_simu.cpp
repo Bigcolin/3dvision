@@ -74,6 +74,12 @@ void robortArm::rotateTo(float& ang1, float& ang2)
     ang_arm0 = ang2;
 };
 
+void robortArm::telescpTo(float len1, float len2)
+{
+    len_arm0 = len1;
+    len_arm1 = len2;
+}
+
 void robortArm::moveTo(vec3f new_coord)
 {
     coord = new_coord;
@@ -94,8 +100,5 @@ void robortArm::transform(pxyz& cloud_l, pxyz& cloud_g)
 
 };
 
-void global_pcd(pxyz& cloud)
-{
-};
 
 }

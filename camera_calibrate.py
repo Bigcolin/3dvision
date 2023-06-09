@@ -3,7 +3,7 @@ import cv2
 
 # 准备标定板
 rows, cols = 11, 8
-square_size = 15  # 棋盘格正方形边长，单位毫米
+square_size = 10  # 棋盘格正方形边长，单位毫米
 objp = np.zeros((rows*cols, 3), np.float32)
 objp[:, :2] = np.mgrid[0:cols, 0:rows].T.reshape(-1, 2) * square_size
 

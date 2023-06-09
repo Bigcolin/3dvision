@@ -9,5 +9,6 @@ find_package(OpenCV REQUIRED opencv_stereo)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 add_executable(pcd_test main.cpp pcl_simu.cpp)
+add_executable(ndt_test ndt.cpp)
 target_link_libraries(pcd_test ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES} ${OpenCV_LIBS} opencv_stereo)
 

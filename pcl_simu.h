@@ -8,7 +8,8 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/visualization/cloud_viewer.h>
-// #include<pcl/filters/passthrough.h>
+#include <pcl/filters/approximate_voxel_grid.h>
+#include <pcl/registration/ndt.h>
 #include<pcl/filters/voxel_grid.h>
 #include<pcl/common/concatenate.h>
 #include<pcl/common/transforms.h>
@@ -63,6 +64,7 @@ class robortArm{
         camera robcam;
         robortArm(float l1, float l2, vec3f init_coord, vec3f cam_distort, float cam_noi);
         void rotateTo(float& angle1, float& angle0); // 机器人各自由度旋转后的新角度
+        void telescpTo(float len1, float len2); // 机器臂伸缩
         void moveTo(vec3f new_coord); // 机器人位移
         void transform(pxyz& cloud_l, pxyz& cloud_g); // 手眼标定
 
@@ -77,19 +79,4 @@ class img_processing{
 };
 
 
-class pcd_processing{
-    int file_nums;
-    int max_point_nums;
-    float cloud_density;
-    vec3f time_stamps;
-    public:
-        pcd_processing();
-        void io();
-        void stitch();
-        void feature_match(matxf& feature, matxf& img, pxyz& cloud);
-        void feature_measure();
-
-
-
-};
 }
